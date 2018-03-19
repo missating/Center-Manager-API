@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('Center', {
+    queryInterface.createTable('Centers', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -25,24 +25,24 @@ module.exports = {
 
       occasionId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+        onDelete: 'CASCADE',
         refrences: {
-          model: 'Occasion',
+          model: 'Occasions',
           key: 'id',
           as: 'occasionId'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        }
       },
 
       userId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+        onDelete: 'CASCADE',
         refrences: {
-          model: 'User',
+          model: 'Users',
           key: 'id',
           as: 'userId'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        }
       },
 
       createdAt: {
@@ -55,6 +55,6 @@ module.exports = {
         type: Sequelize.DATE
       }
     }),
-  down: queryInterface => queryInterface.dropTable('Center')
+  down: queryInterface => queryInterface.dropTable('Centers')
 };
 

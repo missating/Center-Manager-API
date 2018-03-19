@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Occasion', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Users', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -7,46 +7,37 @@ module.exports = {
       type: Sequelize.INTEGER
     },
 
-    title: {
+    fullname: {
       type: Sequelize.STRING,
       allownull: false
     },
 
-    type: {
+    username: {
       type: Sequelize.STRING,
       allownull: false
     },
 
-    date: {
+    email: {
       type: Sequelize.STRING,
-      allownull: false
+      unique: true,
+      allowNull: false,
+      isEmail: true
     },
 
-    time: {
+    password: {
       type: Sequelize.STRING,
-      allownull: false
+      allowNull: false
     },
 
-    userId: {
+    roleId: {
       type: Sequelize.INTEGER,
+      allowNull: false,
+      onDelete: 'CASCADE',
       references: {
-        model: 'User',
+        model: 'Roles',
         key: 'id',
-        as: 'userId'
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE'
-    },
-
-    centerId: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'Center',
-        key: 'id',
-        as: 'centerId'
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE'
+        as: 'roleId'
+      }
     },
 
     createdAt: {
@@ -59,7 +50,7 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: queryInterface => queryInterface.dropTable('Occasion'),
+  down: queryInterface => queryInterface.dropTable('Users'),
 
 };
 
