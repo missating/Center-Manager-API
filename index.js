@@ -1,6 +1,9 @@
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const port = (process.env.PORT || 8000);
 
