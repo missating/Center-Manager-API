@@ -3,6 +3,17 @@ import bcrypt from 'bcrypt';
 export default (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User', {
+      fullname: {
+        type: DataTypes.STRING,
+        allownull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'Fullname cannot be empty'
+          }
+        }
+      },
+
       username: {
         type: DataTypes.STRING,
         allownull: false,
