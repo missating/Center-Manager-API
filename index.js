@@ -2,6 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import routes from './server/routes';
 
 dotenv.config();
 
@@ -19,10 +20,11 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+routes(app);
+
 // Setup a default catch-all route that sends back a welcome message
-app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to Event management API',
-}));
+app.get('*', (req, res) => res.status(200)
+  .send('Welcome to Event management API'));
 
 app.listen(port, () => {
   // eslint-disable-next-line

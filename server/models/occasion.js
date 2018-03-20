@@ -16,25 +16,25 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         args: true,
-        message: 'Type cannot be empty'
+        msg: 'Type cannot be empty'
       }
     },
 
     date: {
-      types: DataTypes.STRING,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
         args: true,
-        message: 'Date cannot be empty'
+        msg: 'Date cannot be empty'
       }
     },
 
     time: {
-      types: DataTypes.STRING,
+      type: DataTypes.TIME,
       allowNull: false,
       validate: {
         args: true,
-        message: 'Time cannot be empty'
+        msg: 'Time cannot be empty'
       }
     },
 
