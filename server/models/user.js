@@ -5,48 +5,24 @@ export default (sequelize, DataTypes) => {
     'User', {
       fullname: {
         type: DataTypes.STRING,
-        allownull: false,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'Fullname cannot be empty'
-          }
-        }
+        allownull: false
       },
 
       username: {
         type: DataTypes.STRING,
-        allownull: false,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'Username cannot be empty'
-          }
-        }
+        unique: true,
+        allownull: false
       },
 
       email: {
         type: DataTypes.STRING,
         unique: true,
-        allowNull: false,
-        validate: {
-          args: true,
-          message: 'Email cannot be empty'
-        },
-        isEmail: {
-          msg: 'Email is invalid'
-        }
+        allowNull: false
       },
 
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'Password cannot be empty'
-          }
-        }
+        allowNull: false
       },
 
       roleId: {

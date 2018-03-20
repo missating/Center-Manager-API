@@ -32,9 +32,12 @@
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
+    "jsonwebtoken": "^8.2.0",
+    "lodash": "^4.17.5",
     "morgan": "^1.9.0",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.19.0"
+    "sequelize": "^4.37.1",
+    "validator": "^9.4.1"
   }
 }

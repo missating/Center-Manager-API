@@ -18,12 +18,12 @@ module.exports = {
     },
 
     date: {
-      type: Sequelize.STRING,
+      type: Sequelize.DATEONLY,
       allownull: false
     },
 
     time: {
-      type: Sequelize.STRING,
+      type: Sequelize.TIME,
       allownull: false
     },
 

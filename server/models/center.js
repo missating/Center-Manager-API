@@ -2,35 +2,17 @@ module.exports = (sequelize, DataTypes) => {
   const Center = sequelize.define('Center', {
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'Name cannot be empty'
-        }
-      }
+      allowNull: false
     },
 
     location: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'Location cannot be empty'
-        }
-      }
+      allowNull: false
     },
 
     facilities: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'Facilities cannot be empty'
-        }
-      }
+      allowNull: false
     },
 
     occasionId: {
