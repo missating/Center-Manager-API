@@ -1,0 +1,18 @@
+---
+engines:
+  csslint:
+    enabled: false
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+
+exclude_patterns:
+  - "node_modules/"
+  - "server/migrations"
+  - "server/models"
