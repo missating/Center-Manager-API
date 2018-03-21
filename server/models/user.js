@@ -6,8 +6,8 @@ export default (sequelize, DataTypes) => {
       profileImage: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: `https://res.cloudinary.com/dxayftnxb/image/upload/
-        v1521588039/profile-icon-9_njp1mb.png`
+        // eslint-disable-next-line
+        defaultValue: 'https://res.cloudinary.com/dxayftnxb/image/upload/v1521588039/profile-icon-9_njp1mb.png'
       },
 
       fullname: {

@@ -78,7 +78,7 @@ export default class usersController {
 
 
   /**
-   * @description - Creates a new user
+   * @description - Logs a user in
    * @static
    *
    * @param {object} req - HTTP Request
@@ -136,6 +136,61 @@ export default class usersController {
             token
           }
         });
+    })
+      .catch(() => res.status(500).json({
+        errors: [
+          {
+            status: '500',
+            detail: 'Internal server error'
+          }
+        ]
+      }));
+  }
+
+  /**
+   * @description - Gets a user's profile
+   * @static
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof usersController
+   *
+   * @returns {object} Class instance
+   */
+  static userProfile(req, res) {
+    db.User.findOne({
+      where: {
+        id: req.userId,
+        username: req.username
+      }
+    }).then((existingUser) => {
+      if (!existingUser) {
+        return res.status(404)
+          .json({
+            errors: [
+              {
+                status: '404',
+                title: 'Not Found',
+                detail: 'A user with that Id is not found'
+              }
+            ]
+          });
+      }
+      if (existingUser) {
+        return res.status(200)
+          .json({
+            data: {
+              user: {
+                profileImage: existingUser.profileImage,
+                fullname: existingUser.fullname,
+                username: existingUser.username,
+                email: existingUser.email,
+                joined: new Date(existingUser.createdAt).toDateString()
+              }
+            }
+          });
+      }
     })
       .catch(() => res.status(500).json({
         errors: [
