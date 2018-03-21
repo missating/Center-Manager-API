@@ -8,6 +8,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
 
+      centerImage: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
       name: {
         type: Sequelize.STRING,
         allowNull: false

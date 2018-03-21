@@ -9,33 +9,33 @@ module.exports = {
 
     title: {
       type: Sequelize.STRING,
-      allownull: false
+      allowNull: false
     },
 
     type: {
       type: Sequelize.STRING,
-      allownull: false
+      allowNull: false
     },
 
     date: {
       type: Sequelize.DATEONLY,
-      allownull: false
+      allowNull: false
     },
 
     time: {
       type: Sequelize.TIME,
-      allownull: false
+      allowNull: false
     },
 
     userId: {
       type: Sequelize.INTEGER,
-      references: {
+      allowNull: false,
+      onDelete: 'CASCADE',
+      refrences: {
         model: 'Users',
         key: 'id',
         as: 'userId'
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE'
+      }
     },
 
     centerId: {

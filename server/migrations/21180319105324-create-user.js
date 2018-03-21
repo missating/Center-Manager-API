@@ -7,21 +7,28 @@ module.exports = {
       type: Sequelize.INTEGER
     },
 
+    profileImage: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+
     fullname: {
       type: Sequelize.STRING,
-      allownull: false
+      allowNull: false
     },
 
     username: {
       type: Sequelize.STRING,
-      allownull: false
+      allowNull: false
     },
 
     email: {
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,
-      isEmail: true
+      validate: {
+        isEmail: true
+      }
     },
 
     password: {

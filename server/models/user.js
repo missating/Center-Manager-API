@@ -3,21 +3,31 @@ import bcrypt from 'bcrypt';
 export default (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User', {
+      profileImage: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: `https://res.cloudinary.com/dxayftnxb/image/upload/
+        v1521588039/profile-icon-9_njp1mb.png`
+      },
+
       fullname: {
         type: DataTypes.STRING,
-        allownull: false
+        allowNull: false
       },
 
       username: {
         type: DataTypes.STRING,
         unique: true,
-        allownull: false
+        allowNull: false
       },
 
       email: {
         type: DataTypes.STRING,
         unique: true,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          isEmail: true
+        }
       },
 
       password: {

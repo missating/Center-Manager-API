@@ -9,6 +9,7 @@ export const findToken = (req, res, next) => {
     const verifyToken = jwt.verify(token, process.env.MY_SECRET);
     req.userId = verifyToken.id;
     req.username = verifyToken.username;
+    req.roleId = verifyToken.roleId;
     return next();
   } catch (error) {
     return res.status(401).send({
@@ -23,7 +24,7 @@ export const findToken = (req, res, next) => {
   }
 };
 
-export const verifyUser = (req, res, next) => {
+export const verifySignUp = (req, res, next) => {
   const {
     fullname, username, email, password, confirmPassword
   } = req.body;
@@ -32,40 +33,41 @@ export const verifyUser = (req, res, next) => {
 
   if (!fullname) {
     errors.fullname = 'Full name is required';
-  }
-
-  if (fullname && validator.isEmpty(fullname.trim() || '')) {
+  } else if (fullname && validator.isEmpty(fullname.trim())) {
     errors.fullname = 'Full name cannot be empty';
-  }
-
-  if (!username) {
+  } else if (!username) {
     errors.username = 'User name is required';
-  }
-
-  if (username && validator.isEmpty(username.trim() || '')) {
+  } else if (username && validator.isEmpty(username.trim())) {
     errors.username = 'User name cannot be empty';
-  }
-
-  if (!email) {
+  } else if (!email) {
     errors.email = 'Email is required';
-  }
-
-  if (email && !validator.isEmail(email.trim() || '')) {
+  } else if (email && !validator.isEmail(email.trim())) {
     errors.email = 'Email is invalid or empty';
-  }
-
-  if (!password) {
+  } else if (!password) {
     errors.password = 'Password is required';
-  }
-
-  if (!confirmPassword) {
+  } else if (!confirmPassword) {
     errors.confirmPassword = 'Please confirm your password';
-  }
-
-  if (validator.isEmpty(password || '') ||
-    validator.isEmpty(confirmPassword || '') ||
+  } else if (validator.isEmpty(password) ||
+    validator.isEmpty(confirmPassword) ||
     (confirmPassword.trim() !== password.trim())) {
     errors.confirmPassword = 'Passwords don\'t match';
+  }
+
+  if (isEmpty(errors)) { return next(); }
+  return res.status(400).json({ errors });
+};
+
+export const verifyUserSignIn = (req, res, next) => {
+  const { identifier, password } = req.body;
+
+  const errors = {};
+
+  if (!identifier) {
+    errors.identifier = 'Please provide your username or email';
+  } else if (identifier && validator.isEmpty(identifier.trim())) {
+    errors.identifier = 'Username or email cannot be empty';
+  } else if (!password) {
+    errors.password = 'Password is required';
   }
 
   if (isEmpty(errors)) { return next(); }
