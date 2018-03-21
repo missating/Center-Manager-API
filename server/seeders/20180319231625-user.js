@@ -4,8 +4,8 @@ module.exports = {
   up(queryInterface) {
     return queryInterface.bulkInsert('Users', [
       {
-        profileImage: `https://res.cloudinary.com/dxayftnxb/image/upload
-        /v1521588039/profile-icon-9_njp1mb.png`,
+        // eslint-disable-next-line
+        profileImage: 'https://res.cloudinary.com/dxayftnxb/image/upload/v1521588039/profile-icon-9_njp1mb.png',
         fullname: 'Default User',
         username: 'admin',
         email: 'admin@eventmanager.com',
