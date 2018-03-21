@@ -2,40 +2,22 @@ export default (sequelize, DataTypes) => {
   const Occasion = sequelize.define('Occasion', {
     title: {
       type: DataTypes.STRING,
-      allownull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'Title cannot be empty'
-        }
-      }
+      allowNull: false
     },
 
     type: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        args: true,
-        msg: 'Type cannot be empty'
-      }
+      allowNull: false
     },
 
     date: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-      validate: {
-        args: true,
-        msg: 'Date cannot be empty'
-      }
+      type: DataTypes.STRING,
+      allowNull: false
     },
 
     time: {
-      type: DataTypes.TIME,
-      allowNull: false,
-      validate: {
-        args: true,
-        msg: 'Time cannot be empty'
-      }
+      type: DataTypes.STRING,
+      allowNull: false
     },
 
     userId: {
