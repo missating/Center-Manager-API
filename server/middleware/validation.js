@@ -24,6 +24,7 @@ export const findToken = (req, res, next) => {
   }
 };
 
+
 export const verifySignUp = (req, res, next) => {
   const {
     fullname, username, email, password, confirmPassword
@@ -57,6 +58,7 @@ export const verifySignUp = (req, res, next) => {
   return res.status(400).json({ errors });
 };
 
+
 export const verifyUserSignIn = (req, res, next) => {
   const { identifier, password } = req.body;
 
@@ -68,6 +70,26 @@ export const verifyUserSignIn = (req, res, next) => {
     errors.identifier = 'Username or email cannot be empty';
   } else if (!password) {
     errors.password = 'Password is required';
+  }
+
+  if (isEmpty(errors)) { return next(); }
+  return res.status(400).json({ errors });
+};
+
+
+export const verifyUserDetails = (req, res, next) => {
+  const { fullname, username } = req.body;
+
+  const errors = {};
+
+  if (!fullname) {
+    errors.fullname = 'Full name is required';
+  } else if (fullname && validator.isEmpty(username.trim())) {
+    errors.username = 'Full name cannot be empty';
+  } else if (!username) {
+    errors.username = 'User name is required';
+  } else if (username && validator.isEmpty(username.trim())) {
+    errors.username = 'User name cannot be empty';
   }
 
   if (isEmpty(errors)) { return next(); }

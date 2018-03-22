@@ -13,7 +13,10 @@ const routes = (app) => {
   app.post('/api/v1/users/signin', verifyUserSignIn, user.userLogin);
 
   // view user's profile
-  app.get('/api/v1/users/profile', findToken, user.userProfile);
+  app.get('/api/v1/users/:userId/profile', user.userProfile);
+
+  // edit user's profile
+  app.put('/api/v1/users/profile', findToken, user.editUserProfile);
 };
 
 export default routes;
