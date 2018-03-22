@@ -160,18 +160,6 @@ export default class usersController {
    * @returns {object} Class instance
    */
   static userProfile(req, res) {
-    if (Number.isNaN(parseInt(req.params.userId, 10))) {
-      return res.status(400).json({
-        errors: [
-          {
-            status: '400',
-            title: 'Invalid Parameter',
-            detail: 'UserId must be a number'
-          }
-        ]
-      });
-    }
-
     const { token } = req.headers;
 
     db.User.findOne({
@@ -293,9 +281,10 @@ export default class usersController {
       }
       if (foundUser) {
         const userDetails = {
-          profileimage: profileImage || foundUser.profileimage,
-          fullname: fullname.trim() || foundUser.fullname.trim(),
-          username: username.trim() || foundUser.username.trim()
+          profileimage: profileImage ? profileImage.trim()
+            : foundUser.profileImage,
+          fullname: fullname ? fullname.trim() : foundUser.fullname,
+          username: username ? username.trim() : foundUser.username
         };
         foundUser.update(userDetails)
           .then(updatedUser => res.status(200)
