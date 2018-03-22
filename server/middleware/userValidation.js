@@ -1,31 +1,8 @@
-import jwt from 'jsonwebtoken';
 import { isEmpty } from 'lodash';
 import validator from 'validator';
 
-export const findToken = (req, res, next) => {
-  const token = req.headers.token || req.body.token || req.query.token;
 
-  try {
-    const verifyToken = jwt.verify(token, process.env.MY_SECRET);
-    req.userId = verifyToken.id;
-    req.username = verifyToken.username;
-    req.roleId = verifyToken.roleId;
-    return next();
-  } catch (error) {
-    return res.status(401).send({
-      errors: [
-        {
-          status: '401',
-          title: 'Unauthorized',
-          detail: 'You do not have the permission to perfrom this action'
-        }
-      ]
-    });
-  }
-};
-
-
-export const verifySignUp = (req, res, next) => {
+export const verifyUserSignUp = (req, res, next) => {
   const {
     fullname, username, email, password, confirmPassword
   } = req.body;
@@ -82,12 +59,8 @@ export const verifyUserDetails = (req, res, next) => {
 
   const errors = {};
 
-  if (!fullname) {
-    errors.fullname = 'Full name is required';
-  } else if (fullname && validator.isEmpty(username.trim())) {
-    errors.username = 'Full name cannot be empty';
-  } else if (!username) {
-    errors.username = 'User name is required';
+  if (fullname && validator.isEmpty(fullname.trim())) {
+    errors.fullname = 'Full name cannot be empty';
   } else if (username && validator.isEmpty(username.trim())) {
     errors.username = 'User name cannot be empty';
   }
