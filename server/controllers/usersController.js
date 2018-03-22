@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import generateToken from '../utils';
 import db from '../models/index';
 
@@ -159,10 +160,23 @@ export default class usersController {
    * @returns {object} Class instance
    */
   static userProfile(req, res) {
+    if (Number.isNaN(parseInt(req.params.userId, 10))) {
+      return res.status(400).json({
+        errors: [
+          {
+            status: '400',
+            title: 'Invalid Parameter',
+            detail: 'UserId must be a number'
+          }
+        ]
+      });
+    }
+
+    const { token } = req.headers;
+
     db.User.findOne({
       where: {
-        id: req.userId,
-        username: req.username
+        id: req.params.userId
       }
     }).then((existingUser) => {
       if (!existingUser) {
@@ -177,16 +191,53 @@ export default class usersController {
             ]
           });
       }
-      if (existingUser) {
+      if (existingUser && token) {
+        jwt.verify(token, process.env.MY_SECRET, (error, decoded) => {
+          if (error) {
+            return res.status(200)
+              .json({
+                data: {
+                  user: {
+                    profileImage: existingUser.profileImage,
+                    fullname: existingUser.fullname,
+                    username: existingUser.username
+                  }
+                }
+              });
+          }
+          if (decoded.id === parseInt(req.params.userId, 10)) {
+            return res.status(200)
+              .json({
+                data: {
+                  user: {
+                    profileImage: existingUser.profileImage,
+                    fullname: existingUser.fullname,
+                    username: existingUser.username,
+                    email: existingUser.email,
+                    joined: new Date(existingUser.createdAt).toDateString()
+                  }
+                }
+              });
+          }
+          return res.status(200)
+            .json({
+              data: {
+                user: {
+                  profileImage: existingUser.profileImage,
+                  fullname: existingUser.fullname,
+                  username: existingUser.username
+                }
+              }
+            });
+        });
+      } else {
         return res.status(200)
           .json({
             data: {
               user: {
                 profileImage: existingUser.profileImage,
                 fullname: existingUser.fullname,
-                username: existingUser.username,
-                email: existingUser.email,
-                joined: new Date(existingUser.createdAt).toDateString()
+                username: existingUser.username
               }
             }
           });
@@ -197,6 +248,76 @@ export default class usersController {
           {
             status: '500',
             detail: 'Internal server error'
+          }
+        ]
+      }));
+  }
+
+
+  /**
+   * @description - edit's a user's profile
+   * @static
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof usersController
+   *
+   * @returns {object} Class instance
+   */
+  static editUserProfile(req, res) {
+    const { fullname, username } = req.body;
+
+    let { profileImage } = req.body;
+
+    if (!profileImage) {
+      // eslint-disable-next-line
+      profileImage = 'https://res.cloudinary.com/dxayftnxb/image/upload/v1521588039/profile-icon-9_njp1mb.png';
+    }
+
+    db.User.findOne({
+      where: {
+        id: req.userId
+      }
+    }).then((foundUser) => {
+      if (!foundUser) {
+        return res.status(404).json({
+          error: [
+            {
+              status: '404',
+              title: 'Not Found',
+              detail: `Can't find user with id ${req.userId}`
+            }
+          ]
+        });
+      }
+      if (foundUser) {
+        const userDetails = {
+          profileimage: profileImage || foundUser.profileimage,
+          fullname: fullname.trim() || foundUser.fullname.trim(),
+          username: username.trim() || foundUser.username.trim()
+        };
+        foundUser.update(userDetails)
+          .then(updatedUser => res.status(200)
+            .json({
+              data: {
+                user:
+                  {
+                    profileImage: updatedUser.profileImage,
+                    fullname: updatedUser.fullname,
+                    username: updatedUser.username,
+                    email: updatedUser.email,
+                    joined: new Date(updatedUser.createdAt).toDateString()
+                  }
+              }
+            }));
+      }
+    }).catch(() => res.status(500)
+      .json({
+        errors: [
+          {
+            status: '500',
+            detail: 'internal Server error'
           }
         ]
       }));
