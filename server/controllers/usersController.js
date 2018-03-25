@@ -69,12 +69,10 @@ export default class usersController {
       });
     })
       .catch(() => res.status(500).json({
-        errors: [
-          {
-            status: '500',
-            detail: 'Internal server error'
-          }
-        ]
+        errors: {
+          status: '500',
+          detail: 'Internal server error'
+        }
       }));
   }
 
@@ -93,6 +91,12 @@ export default class usersController {
   static userLogin(req, res) {
     const { identifier, password } = req.body;
 
+    const errors = {
+      status: '404',
+      title: 'Not Found',
+      detail: 'These credentials do not match our record'
+    };
+
     db.User.findOne({
       where: {
         $or: [
@@ -104,25 +108,13 @@ export default class usersController {
       if (!foundUser) {
         return res.status(404)
           .json({
-            errors: [
-              {
-                status: '404',
-                title: 'Not Found',
-                detail: 'These credentials do not match our record'
-              }
-            ]
+            errors
           });
       }
       if (!bcrypt.compareSync(password, foundUser.password)) {
         return res.status(404)
           .json({
-            errors: [
-              {
-                status: '404',
-                title: 'Not Found',
-                detail: 'These credentials do not match our record'
-              }
-            ]
+            errors
           });
       }
       const token = generateToken(foundUser);
@@ -140,12 +132,10 @@ export default class usersController {
         });
     })
       .catch(() => res.status(500).json({
-        errors: [
-          {
-            status: '500',
-            detail: 'Internal server error'
-          }
-        ]
+        errors: {
+          status: '500',
+          detail: 'Internal server error'
+        }
       }));
   }
 
@@ -171,13 +161,11 @@ export default class usersController {
       if (!existingUser) {
         return res.status(404)
           .json({
-            errors: [
-              {
-                status: '404',
-                title: 'Not Found',
-                detail: 'A user with that Id is not found'
-              }
-            ]
+            errors: {
+              status: '404',
+              title: 'Not Found',
+              detail: 'A user with that Id is not found'
+            }
           });
       }
       if (existingUser && token) {
@@ -233,12 +221,10 @@ export default class usersController {
       }
     })
       .catch(() => res.status(500).json({
-        errors: [
-          {
-            status: '500',
-            detail: 'Internal server error'
-          }
-        ]
+        errors: {
+          status: '500',
+          detail: 'Internal server error'
+        }
       }));
   }
 
@@ -357,12 +343,10 @@ export default class usersController {
       })
       .catch(() => res.status(500)
         .json({
-          errors: [
-            {
-              status: '500',
-              detail: 'internal Server error'
-            }
-          ]
+          errors: {
+            status: '500',
+            detail: 'internal Server error'
+          }
         }));
   }
 }
