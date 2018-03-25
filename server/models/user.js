@@ -35,6 +35,11 @@ export default (sequelize, DataTypes) => {
         allowNull: false
       },
 
+      token: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+
       roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,

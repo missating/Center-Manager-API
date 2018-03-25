@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import generateToken from '../utils';
 import db from '../models/index';
+import sendEmail from '../helperFunctions/sendEmail';
 
 
 /**
@@ -310,6 +311,59 @@ export default class usersController {
           }
         ]
       }));
+  }
+
+
+  /**
+   * @description - Request by user to recover lost password
+   * @static
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof usersController
+   *
+   * @returns {object} Class instance
+   */
+  static recoverPassword(req, res) {
+    const { email } = req.body;
+
+    db.User.findOne({
+      where: {
+        email
+      }
+    })
+      .then((foundUser) => {
+        if (!foundUser) {
+          return res.status(404).json({
+            error: [
+              {
+                status: '404',
+                title: 'Not Found',
+                detail: 'Email not found'
+              }
+            ]
+          });
+        }
+        if (foundUser) {
+          const token = generateToken(foundUser);
+          foundUser.update({ token })
+            .then(() => {
+              const url =
+                `http://${req.headers.host}/users/password-reset/${token}`;
+              sendEmail(foundUser.email, url, res);
+            });
+        }
+      })
+      .catch(() => res.status(500)
+        .json({
+          errors: [
+            {
+              status: '500',
+              detail: 'internal Server error'
+            }
+          ]
+        }));
   }
 }
 
