@@ -1,14 +1,17 @@
 ---
-engines:
-  csslint:
+version: "2"
+checks:
+  file-lines:
     enabled: false
-  duplication:
-    enabled: true
-    config:
-      languages:
-      - javascript
+
+engines:
   eslint:
     enabled: true
+    config:
+      config: .eslintrc.js
+    checks:
+      complexity:
+        enabled: false
   fixme:
     enabled: true
 
