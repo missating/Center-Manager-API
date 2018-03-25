@@ -15,6 +15,9 @@ plugins:
     enabled: true
     config:
       config: .eslintrc.js
+    checks:
+      indent:
+        enabled: false
 
   fixme:
     enabled: true
