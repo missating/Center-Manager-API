@@ -36,6 +36,11 @@ module.exports = {
       allowNull: false
     },
 
+    token: {
+      type: Sequelize.TEXT,
+      allowNull: true
+    },
+
     roleId: {
       type: Sequelize.INTEGER,
       allowNull: false,

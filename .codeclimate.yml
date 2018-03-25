@@ -16,3 +16,4 @@ exclude_patterns:
   - "node_modules/"
   - "server/migrations"
   - "server/models"
+  - "server/seeders"
