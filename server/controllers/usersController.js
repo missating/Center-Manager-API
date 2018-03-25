@@ -336,7 +336,8 @@ export default class usersController {
           foundUser.update({ token })
             .then(() => {
               const url =
-                `http://${req.headers.host}/users/password-reset/${token}`;
+                // eslint-disable-next-line
+                `http://${req.headers.host}/api/v1/users/password-reset/${token}`;
               sendEmail(foundUser.email, url, res);
             });
         }
@@ -348,6 +349,48 @@ export default class usersController {
             detail: 'internal Server error'
           }
         }));
+  }
+
+
+  /**
+   * @description - Link for user to reset their password
+   * @static
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof usersController
+   *
+   * @returns {object} Class instance
+   */
+  static resetPassword(req, res) {
+    const { password } = req.body;
+
+    db.User.findOne({
+      where: {
+        id: req.userId
+      }
+    })
+      .then((foundUser) => {
+        if (foundUser.token === req.headers.token) {
+          const newPassword = {
+            password: bcrypt.hashSync(password, 10),
+            token: null
+          };
+          foundUser.update(newPassword)
+            .then(() => res.status(200)
+              .send('Password reset was successful, Please login'));
+        } else {
+          return res.status(401)
+            .send('You do not have the permission to perform this action');
+        }
+      })
+      .catch(() => res.status(500).json({
+        errors: {
+          status: '500',
+          detail: 'internal Server error'
+        }
+      }));
   }
 }
 
