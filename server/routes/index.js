@@ -3,7 +3,8 @@ import authorization from '../middleware/authorization';
 import {
   verifyUserSignUp,
   verifyUserSignIn,
-  verifyEmail
+  verifyEmail,
+  verifyPassword
 } from '../middleware/userValidation';
 import verifyUserId from '../middleware/idValidation';
 
@@ -22,7 +23,12 @@ const routes = (app) => {
   app.put('/api/v1/users/profile', authorization, user.editUserProfile);
 
   app.post('/api/v1/users/recover-password', verifyEmail, user.recoverPassword);
+
+  // reset passowrd route
+  app.put(
+    '/api/v1/users/password-reset',
+    authorization, verifyPassword, user.resetPassword
+  );
 };
 
 export default routes;
-
