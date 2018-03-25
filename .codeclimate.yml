@@ -14,7 +14,7 @@ plugins:
   eslint:
     enabled: true
     config:
-      config: .eslintrc.js
+      config: .eslintrc.json
     checks:
       indent:
         enabled: false
