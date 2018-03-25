@@ -17,3 +17,4 @@ exclude_patterns:
   - "server/migrations"
   - "server/models"
   - "server/seeders"
+  - "server/config"
