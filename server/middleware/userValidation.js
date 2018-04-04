@@ -53,22 +53,6 @@ export const verifyUserSignIn = (req, res, next) => {
   return res.status(400).json({ errors });
 };
 
-
-export const verifyUserDetails = (req, res, next) => {
-  const { fullname, username } = req.body;
-
-  const errors = {};
-
-  if (fullname && validator.isEmpty(fullname.trim())) {
-    errors.fullname = 'Full name cannot be empty';
-  } else if (username && validator.isEmpty(username.trim())) {
-    errors.username = 'User name cannot be empty';
-  }
-
-  if (isEmpty(errors)) { return next(); }
-  return res.status(400).json({ errors });
-};
-
 export const verifyEmail = (req, res, next) => {
   const { email } = req.body;
 
