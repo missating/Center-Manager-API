@@ -6,6 +6,7 @@ services:
 before_script:
   - psql -c 'drop database if exists travis;' -U postgres
   - psql -c 'create database travis;' -U postgres
+  - npm install bcrypt
 script:
   - npm run test:server
 after_success: 
