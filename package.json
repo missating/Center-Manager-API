@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "nodemon  --exec babel-node index.js",
-    "test:server": "cross-env NODE_ENV=test npm run reset-migrate && cross-env NODE_ENV=test nyc mocha server/test/**.spec.js --timeout 2500 --exit --require babel-register --reporter spec",
+    "test:server": "cross-env NODE_ENV=test npm run reset-migrate && cross-env NODE_ENV=test nyc mocha server/test/**.spec.js --timeout 3000 --exit --require babel-register --reporter spec",
     "reset-migrate": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },

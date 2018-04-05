@@ -39,14 +39,6 @@ const user4 = {
   confirmPassword: '1234567890'
 };
 
-const user5 = {
-  fullname: 'test5',
-  username: 'test5',
-  email: 'test5@test.com',
-  password: '1234567890',
-  confirmPassword: '1234567890'
-};
-
 const user6 = {
   fullname: 'test6',
   username: 'test6',
@@ -468,16 +460,6 @@ describe('User API test', () => {
 
 
   describe('# Recover lost user password', () => {
-    before((done) => {
-      request.post(signupUrl)
-        .send(user5)
-        .end((error, response) => {
-          expect(response.statusCode).to.equal(201);
-          done();
-        });
-    });
-
-
     it('Should not send recovery link with an empty email field', (done) => {
       request.post('/api/v1/users/recover-password')
         .send({
@@ -504,21 +486,6 @@ describe('User API test', () => {
           done();
         });
     });
-
-    it('Should allow users recover their lost password', (done) => {
-      request.post('/api/v1/users/recover-password')
-        .send({
-          email: user5.email
-        })
-        .end((error, response) => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.body).to.be.an('object');
-          expect(response.body.message)
-            .to.equal('A recovery link has been sent to your mail');
-          done();
-        });
-    });
-
 
     it(
       'Should not send recovery link for email that does not exist',
