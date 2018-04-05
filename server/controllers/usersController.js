@@ -39,13 +39,11 @@ export default class usersController {
       if (existingUser) {
         return res.status(409)
           .json({
-            errors: [
-              {
-                status: '409',
-                title: 'Conflict',
-                detail: 'Username or Email already exist'
-              }
-            ]
+            errors: {
+              status: '409',
+              title: 'Conflict',
+              detail: 'Username or Email already exist'
+            }
           });
       }
       return db.User.create({
@@ -257,13 +255,11 @@ export default class usersController {
     }).then((foundUser) => {
       if (!foundUser) {
         return res.status(404).json({
-          error: [
-            {
-              status: '404',
-              title: 'Not Found',
-              detail: `Can't find user with id ${req.userId}`
-            }
-          ]
+          error: {
+            status: '404',
+            title: 'Not Found',
+            detail: `Can't find user with id ${req.userId}`
+          }
         });
       }
       if (foundUser) {
@@ -322,13 +318,11 @@ export default class usersController {
       .then((foundUser) => {
         if (!foundUser) {
           return res.status(404).json({
-            error: [
-              {
-                status: '404',
-                title: 'Not Found',
-                detail: 'Email not found'
-              }
-            ]
+            errors: {
+              status: '404',
+              title: 'Not Found',
+              detail: 'Email not found'
+            }
           });
         }
         if (foundUser) {
@@ -379,10 +373,14 @@ export default class usersController {
           };
           foundUser.update(newPassword)
             .then(() => res.status(200)
-              .send('Password reset was successful, Please login'));
+              .json({
+                message: 'Password reset was successful, Please login'
+              }));
         } else {
           return res.status(401)
-            .send('You do not have the permission to perform this action');
+            .json({
+              message: 'You do not have the permission to perform this action'
+            });
         }
       })
       .catch(() => res.status(500).json({

@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 
 const verifyUserId = (req, res, next) => {
-  const { userId } = req.userId;
+  const { userId } = req.params;
 
   const errors = {};
 

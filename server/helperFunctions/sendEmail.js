@@ -41,10 +41,10 @@ const sendEmail = (email, url, res) => {
   transporter.sendMail(mailOptions, (error) => {
     if (error) {
       return res.status(500)
-        .send('An error occured while trying to send your mail');
+        .json({ message: 'An error occured while trying to send your mail' });
     }
     return res.status(200)
-      .send('A recovery email has been sent to your mail');
+      .json({ message: 'A recovery link has been sent to your mail' });
   });
 };
 

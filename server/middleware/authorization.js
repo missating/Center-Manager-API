@@ -11,13 +11,11 @@ const authorization = (req, res, next) => {
     return next();
   } catch (error) {
     return res.status(401).send({
-      errors: [
-        {
-          status: '401',
-          title: 'Unauthorized',
-          detail: 'You do not have the permission to perfrom this action'
-        }
-      ]
+      errors: {
+        status: '401',
+        title: 'Unauthorized',
+        detail: 'You do not have the permission to perfrom this action'
+      }
     });
   }
 };
