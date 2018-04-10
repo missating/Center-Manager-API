@@ -350,7 +350,7 @@ describe('User API test', () => {
             expect(response.statusCode).to.equal(400);
             expect(response.body).to.be.an('object');
             expect(response.body.errors.userId)
-              .to.equal('UserId must be a number');
+              .to.equal('User Id must be a number');
             done();
           });
       }

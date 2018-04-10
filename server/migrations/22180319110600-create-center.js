@@ -28,22 +28,11 @@ module.exports = {
         allowNull: false
       },
 
-      occasionId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        refrences: {
-          model: 'Occasions',
-          key: 'id',
-          as: 'occasionId'
-        }
-      },
-
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         onDelete: 'CASCADE',
-        refrences: {
+        references: {
           model: 'Users',
           key: 'id',
           as: 'userId'
