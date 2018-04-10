@@ -289,7 +289,7 @@ export default class usersController {
         errors: [
           {
             status: '500',
-            detail: 'internal Server error'
+            detail: 'internal server error'
           }
         ]
       }));
@@ -340,7 +340,7 @@ export default class usersController {
         .json({
           errors: {
             status: '500',
-            detail: 'internal Server error'
+            detail: 'internal server error'
           }
         }));
   }
@@ -386,7 +386,7 @@ export default class usersController {
       .catch(() => res.status(500).json({
         errors: {
           status: '500',
-          detail: 'internal Server error'
+          detail: 'internal server error'
         }
       }));
   }
