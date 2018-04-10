@@ -1,5 +1,11 @@
 import db from '../models/index';
 
+const errors = {
+  status: '404',
+  title: 'Not Found',
+  detail:
+    'Can\'t find a center with that id by you'
+};
 
 /**
  *@class centersController
@@ -106,12 +112,7 @@ export default class centersController {
       if (!foundCenter) {
         return res.status(404)
           .json({
-            errors: {
-              status: '404',
-              title: 'Not Found',
-              detail:
-                `Can't find a center with id ${req.params.centerId} by you`
-            }
+            errors
           });
       }
     })
@@ -161,12 +162,7 @@ export default class centersController {
         if (!foundCenter) {
           return res.status(404)
             .json({
-              errors: {
-                status: '404',
-                title: 'Not Found',
-                detail:
-                  `Can't find a center with id ${req.params.centerId} by you`
-              }
+              errors
             });
         }
       })
