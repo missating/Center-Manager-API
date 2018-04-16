@@ -26,16 +26,3 @@ export const verifyCenterId = (req, res, next) => {
   return res.status(400).json({ errors });
 };
 
-export const verifyPageNumber = (req, res, next) => {
-  const { page } = req.query;
-
-  const errors = {};
-
-  if (Number.isNaN(parseInt(page, 10))) {
-    errors.page = 'Page Number must be an integer';
-  }
-
-  if (isEmpty(errors)) return next();
-  return res.status(400).json({ errors });
-};
-
