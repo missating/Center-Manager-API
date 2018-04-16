@@ -1,4 +1,5 @@
 import db from '../models/index';
+import verifyPageNumber from '../helperFunctions/idValidation';
 
 const errors = {
   status: '404',
@@ -95,8 +96,8 @@ export default class centersController {
     }).then((foundCenter) => {
       if (foundCenter) {
         const centerDetails = {
-          profileimage: centerImage ? centerImage.trim()
-            : foundCenter.profileImage,
+          centerImage: centerImage ? centerImage.trim()
+            : foundCenter.centerImage,
           name: name ? name.trim() : foundCenter.name,
           location: location ? location.trim() : foundCenter.location,
           facilities: facilities ? facilities.trim() : foundCenter.facilities
@@ -192,6 +193,10 @@ export default class centersController {
       const limit = 6;
       let offset = 0;
       const page = parseInt((req.query.page || 1), 10);
+      const error = verifyPageNumber(page);
+      if (error.page) {
+        return res.status(400).json({ error });
+      }
       const numberOfItems = all.count;
       const pages = Math.ceil(numberOfItems / limit);
       offset = limit * (page - 1);
