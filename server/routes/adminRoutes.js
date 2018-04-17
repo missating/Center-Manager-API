@@ -21,6 +21,7 @@ export default function adminRoutes(app) {
 
   app.route('/api/v1/centers/:centerId')
     .put(authorization, verifyAdmin, verifyCenterId, Center.editCenter)
-    .delete(authorization, verifyAdmin, verifyCenterId, Center.deleteCenter);
+    .delete(authorization, verifyAdmin, verifyCenterId, Center.deleteCenter)
+    .get(verifyCenterId, Center.getACenter);
 }
 

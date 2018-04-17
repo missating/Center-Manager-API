@@ -278,6 +278,47 @@ describe('Admin API test', () => {
   });
 
 
+  describe('# Get a center', () => {
+    it('Should get a center', (done) => {
+      request.get('/api/v1/centers/1')
+        .end((errors, response) => {
+          expect(response.statusCode).to.equal(200);
+          expect(response.body).to.be.an('object');
+          expect(response.body.data.center).to.have.property('centerImage');
+          expect(response.body.data.center).to.have.property('name');
+          expect(response.body.data.center).to.have.property('location');
+          expect(response.body.data.center).to.have.property('facilities');
+          done();
+        });
+    });
+
+
+    it('Should not get a center that does not exist', (done) => {
+      request.get('/api/v1/centers/20')
+        .end((errors, response) => {
+          expect(response.statusCode).to.equal(404);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.title).to.equal('Not Found');
+          expect(response.body.errors.detail)
+            .to.equal('Can\'t find a center with that Id');
+          done();
+        });
+    });
+
+
+    it('Should not get a center id that is not a number', (done) => {
+      request.get('/api/v1/centers/:centerId')
+        .end((errors, response) => {
+          expect(response.statusCode).to.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.centerId)
+            .to.equal('Center Id must be a number');
+          done();
+        });
+    });
+  });
+
+
   describe('# Delete center', () => {
     it('Should not allow a non auth user to delete a center', (done) => {
       request.delete('/api/v1/centers/1')
