@@ -235,5 +235,52 @@ export default class centersController {
           }));
     });
   }
+
+
+  /**
+   * @description - Gets the details of a particular center
+   * @static
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof centersController
+   *
+   * @returns {object} Class instance
+   */
+  static getACenter(req, res) {
+    db.Center.findOne({
+      where: {
+        id: req.params.centerId
+      }
+    })
+      .then((center) => {
+        if (!center) {
+          return res.status(404)
+            .json({
+              errors: {
+                status: '404',
+                title: 'Not Found',
+                detail: 'Can\'t find a center with that Id'
+              }
+            });
+        }
+        if (center) {
+          return res.status(200)
+            .json({
+              data: {
+                center
+              }
+            });
+        }
+      })
+      .catch(() => res.status(500)
+        .json({
+          errors: {
+            status: '500',
+            detail: 'Internal server error'
+          }
+        }));
+  }
 }
 
