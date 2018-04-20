@@ -11,12 +11,12 @@ export default (sequelize, DataTypes) => {
     },
 
     date: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATEONLY,
       allowNull: false
     },
 
     time: {
-      type: DataTypes.STRING,
+      type: DataTypes.TIME,
       allowNull: false
     },
 
