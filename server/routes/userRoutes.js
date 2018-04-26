@@ -1,4 +1,5 @@
 import user from '../controllers/usersController';
+import occasion from '../controllers/occasionsControllers';
 import authorization from '../middleware/authorization';
 import {
   verifyUserSignUp,
@@ -6,7 +7,14 @@ import {
   verifyEmail,
   verifyPassword
 } from '../middleware/userValidation';
-import { verifyUserId } from '../middleware/idValidation';
+import {
+  verifyUserId,
+  verifyEventId
+} from '../middleware/idValidation';
+import {
+  verifyEditOccassion,
+  verifyNewOccasion
+} from '../middleware/occasionValidation';
 
 
 /**
@@ -37,5 +45,27 @@ export default function userRoutes(app) {
     '/api/v1/users/password-reset',
     authorization, verifyPassword, user.resetPassword
   );
+
+  // get all events created by a user
+  app.get('/api/v1/events/user', authorization, occasion.getAllUserOccasion);
+
+  // add an event
+  // get all created events
+  app.route('/api/v1/events')
+    .post(authorization, verifyNewOccasion, occasion.addOccasion)
+    .get(occasion.getAllOcassions);
+
+  // edit an event
+  // delete an event
+  // view a particular event
+  app.route('/api/v1/events/:eventId')
+    .put(
+      authorization,
+      verifyEventId,
+      verifyEditOccassion,
+      occasion.editOccasion
+    )
+    .delete(authorization, verifyEventId, occasion.deleteOccasion)
+    .get(verifyEventId, occasion.getOneOccasion);
 }
 

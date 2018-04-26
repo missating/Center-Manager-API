@@ -18,12 +18,12 @@ module.exports = {
     },
 
     date: {
-      type: Sequelize.DATEONLY,
+      type: Sequelize.STRING,
       allowNull: false
     },
 
     time: {
-      type: Sequelize.TIME,
+      type: Sequelize.STRING,
       allowNull: false
     },
 
@@ -31,7 +31,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       onDelete: 'CASCADE',
-      refrences: {
+      references: {
         model: 'Users',
         key: 'id',
         as: 'userId'
