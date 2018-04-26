@@ -205,11 +205,6 @@ export default class centersController {
         offset,
         order: [
           ['id', 'DESC']
-        ],
-        include: [
-          {
-            model: db.Occasion
-          }
         ]
       })
         .then((centers) => {
@@ -252,7 +247,12 @@ export default class centersController {
     db.Center.findOne({
       where: {
         id: req.params.centerId
-      }
+      },
+      include: [
+        {
+          model: db.Occasion
+        }
+      ]
     })
       .then((center) => {
         if (!center) {
