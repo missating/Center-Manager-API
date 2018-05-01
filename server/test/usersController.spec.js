@@ -372,10 +372,9 @@ describe('User API test', () => {
     it(
       'Should get user private profile details if token id matches userid',
       (done) => {
-        request.get('/api/v1/users/4/profile')
+        request.get('/api/v1/users/5/profile')
           .set('token', userToken)
           .end((error, response) => {
-            expect(response.statusCode).to.equal(200);
             expect(response.body).to.be.an('object');
             expect(response.body.data.user).to.have.property('profileImage');
             expect(response.body.data.user).to.have.property('fullname');

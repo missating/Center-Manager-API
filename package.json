@@ -9,6 +9,11 @@
     "reset-migrate": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
+  "nyc": {
+    "exclude": [
+      "server/test/"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/missating/Event-Manager.git"

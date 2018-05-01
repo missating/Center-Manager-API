@@ -250,7 +250,7 @@ describe('Admin API test', () => {
   describe('# Get all centers', () => {
     it('Should get all centers', (done) => {
       request.get('/api/v1/centers')
-        .end((errors, response) => {
+        .end((error, response) => {
           expect(response.statusCode).to.equal(200);
           expect(response.body).to.be.an('object');
           expect(response.body.data).to.have.property('numberOfItems');
@@ -265,7 +265,7 @@ describe('Admin API test', () => {
     });
 
 
-    it('Should get all centers with pagination', (done) => {
+    it('Should not get all centers with wrong pagination', (done) => {
       request.get('/api/v1/centers?page=page')
         .end((error, response) => {
           expect(response.statusCode).to.equal(400);
@@ -281,7 +281,7 @@ describe('Admin API test', () => {
   describe('# Get a center', () => {
     it('Should get a center', (done) => {
       request.get('/api/v1/centers/1')
-        .end((errors, response) => {
+        .end((error, response) => {
           expect(response.statusCode).to.equal(200);
           expect(response.body).to.be.an('object');
           expect(response.body.data.center).to.have.property('centerImage');
@@ -295,7 +295,7 @@ describe('Admin API test', () => {
 
     it('Should not get a center that does not exist', (done) => {
       request.get('/api/v1/centers/20')
-        .end((errors, response) => {
+        .end((error, response) => {
           expect(response.statusCode).to.equal(404);
           expect(response.body).to.be.an('object');
           expect(response.body.errors.title).to.equal('Not Found');
@@ -308,7 +308,7 @@ describe('Admin API test', () => {
 
     it('Should not get a center id that is not a number', (done) => {
       request.get('/api/v1/centers/:centerId')
-        .end((errors, response) => {
+        .end((error, response) => {
           expect(response.statusCode).to.equal(400);
           expect(response.body).to.be.an('object');
           expect(response.body.errors.centerId)

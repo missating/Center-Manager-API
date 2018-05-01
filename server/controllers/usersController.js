@@ -173,6 +173,7 @@ export default class usersController {
               .json({
                 data: {
                   user: {
+                    id: existingUser.id,
                     profileImage: existingUser.profileImage,
                     fullname: existingUser.fullname,
                     username: existingUser.username
@@ -185,6 +186,7 @@ export default class usersController {
               .json({
                 data: {
                   user: {
+                    id: existingUser.id,
                     profileImage: existingUser.profileImage,
                     fullname: existingUser.fullname,
                     username: existingUser.username,
@@ -198,6 +200,7 @@ export default class usersController {
             .json({
               data: {
                 user: {
+                  id: existingUser.id,
                   profileImage: existingUser.profileImage,
                   fullname: existingUser.fullname,
                   username: existingUser.username
@@ -210,6 +213,7 @@ export default class usersController {
           .json({
             data: {
               user: {
+                id: existingUser.id,
                 profileImage: existingUser.profileImage,
                 fullname: existingUser.fullname,
                 username: existingUser.username
