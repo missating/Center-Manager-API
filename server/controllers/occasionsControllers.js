@@ -4,7 +4,7 @@ import verifyPageNumber from '../helperFunctions/idValidation';
 const errors = {
   status: '404',
   title: 'Not Found',
-  detail: 'Can\'t find a center with that Id by you'
+  detail: 'Can\'t find an event with that Id'
 };
 
 /**
@@ -30,7 +30,7 @@ export default class occasionsControllers {
       title, type, date, time, centerId
     } = req.body;
 
-    return db.Center.findById(req.params.centerId)
+    return db.Center.findById(req.body.centerId)
       .then((foundCenter) => {
         if (!foundCenter) {
           return res.status(404)
@@ -65,12 +65,11 @@ export default class occasionsControllers {
                 time
               })
                 .then(newOccasion =>
-                  res.status(201)
-                    .json({
-                      data: {
-                        occasion: newOccasion
-                      }
-                    }));
+                  res.status(201).json({
+                    data: {
+                      occasion: newOccasion
+                    }
+                  }));
             }
           });
       })
@@ -384,7 +383,7 @@ export default class occasionsControllers {
               limit,
               pages,
               currentPage: page,
-              events: allUserOccasion
+              occasion: allUserOccasion
             }
           }));
       });
