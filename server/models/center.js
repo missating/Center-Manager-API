@@ -16,7 +16,7 @@ export default (sequelize, DataTypes) => {
     },
 
     facilities: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false
     },
 

@@ -38,7 +38,7 @@ describe('Event API Test', () => {
         .set('token', userToken)
         .send({
           title: '',
-          type: 'birthday party',
+          description: 'birthday party',
           date: '30/1/2018',
           time: '2:00pm',
           centerId: '1'
@@ -53,12 +53,12 @@ describe('Event API Test', () => {
     });
 
 
-    it('Should not add an event without specifying the type', (done) => {
+    it('Should not add an event without a description', (done) => {
       request.post('/api/v1/events')
         .set('token', userToken)
         .send({
           title: 'party',
-          type: '',
+          description: '',
           date: '30/1/2018',
           time: '2:00pm',
           centerId: '1'
@@ -66,8 +66,8 @@ describe('Event API Test', () => {
         .end((error, response) => {
           expect(response.statusCode).to.equal(400);
           expect(response.body).to.be.an('object');
-          expect(response.body.errors.type)
-            .to.equal('What type of event is this?');
+          expect(response.body.errors.description)
+            .to.equal('Please provide a description for this event');
           done();
         });
     });
@@ -78,7 +78,7 @@ describe('Event API Test', () => {
         .set('token', userToken)
         .send({
           title: 'party',
-          type: 'birthday party',
+          description: 'birthday party',
           date: '',
           time: '2:00pm',
           centerId: '1'
@@ -98,7 +98,7 @@ describe('Event API Test', () => {
         .set('token', userToken)
         .send({
           title: 'party',
-          type: 'birthday party',
+          description: 'birthday party',
           date: '05/10/2017',
           time: '',
           centerId: '1'
@@ -118,7 +118,7 @@ describe('Event API Test', () => {
         .set('token', userToken)
         .send({
           title: 'party',
-          type: 'birthday party',
+          description: 'birthday party',
           date: '05/10/2017',
           time: '04:00',
           centerId: ''
@@ -138,7 +138,7 @@ describe('Event API Test', () => {
         .set('token', userToken)
         .send({
           title: 'party',
-          type: 'birthday party',
+          description: 'birthday party',
           date: '5/1/2017',
           time: '04:00',
           centerId: '1'
@@ -158,7 +158,7 @@ describe('Event API Test', () => {
         .set('token', userToken)
         .send({
           title: 'party',
-          type: 'birthday party',
+          description: 'birthday party',
           date: '05/10/2017',
           time: '4:00',
           centerId: '1'
@@ -177,7 +177,7 @@ describe('Event API Test', () => {
       request.post('/api/v1/events')
         .send({
           title: 'owanbe',
-          type: 'yoruba party',
+          description: 'yoruba party',
           time: '2:00pm',
           date: '1/4/2017',
           centerId: '1'
@@ -236,7 +236,7 @@ describe('Event API Test', () => {
         .set('token', userToken)
         .send({
           title: 'owanbe',
-          type: 'yoruba party',
+          description: 'yoruba party',
           time: '02:00',
           date: '01/04/2017',
           centerId: '2'
@@ -245,7 +245,7 @@ describe('Event API Test', () => {
           expect(response.statusCode).to.equal(201);
           expect(response.body).to.be.an('object');
           expect(response.body.data.occasion).to.have.property('title');
-          expect(response.body.data.occasion).to.have.property('type');
+          expect(response.body.data.occasion).to.have.property('description');
           expect(response.body.data.occasion).to.have.property('time');
           expect(response.body.data.occasion).to.have.property('date');
           done();
@@ -259,7 +259,7 @@ describe('Event API Test', () => {
           .set('token', userToken)
           .send({
             title: 'owanbe',
-            type: 'yoruba party',
+            description: 'yoruba party',
             time: '02:00',
             date: '01/04/2017',
             centerId: '2'
@@ -281,7 +281,7 @@ describe('Event API Test', () => {
         .set('token', userToken)
         .send({
           title: 'owanbe',
-          type: 'yoruba party',
+          description: 'yoruba party',
           time: '02:00',
           date: '01/04/2017',
           centerId: '1'
@@ -305,7 +305,7 @@ describe('Event API Test', () => {
         request.put('/api/v1/events/1')
           .send({
             title: 'crusade',
-            type: 'church prayer',
+            description: 'church prayer',
             date: '08/04/2016',
             time: '04:00',
             centerId: '2'
@@ -328,7 +328,7 @@ describe('Event API Test', () => {
         .set('token', userToken)
         .send({
           title: 'crusade',
-          type: 'church prayer',
+          description: 'church prayer',
           date: '08/04/2016',
           time: '04:00',
           centerId: '2'
@@ -343,22 +343,21 @@ describe('Event API Test', () => {
     });
 
 
-    it('Should allow an auth user to edit the details of a center', (done) => {
+    it('Should allow an auth user to edit the details of an event', (done) => {
       request.put('/api/v1/events/1')
         .set('token', userToken)
         .send({
-          title: 'crusade',
-          type: 'church prayer',
+          title: 'cooking time',
+          description: 'cook anytime and anywhere',
           date: '08/04/2016',
           time: '04:00',
           centerId: '2'
         })
         .end((error, response) => {
+          // console.log('=======================', response.body);
           expect(response.statusCode).to.equal(200);
           expect(response.body).to.be.an('object');
           expect(response.body.data.occasion).to.have.property('title');
-          expect(response.body.data.occasion.type)
-            .to.equal('church prayer');
           expect(response.body.data.occasion.date).to.equal('08/04/2016');
           expect(response.body.data.occasion.time)
             .to.equal('04:00');
@@ -374,7 +373,7 @@ describe('Event API Test', () => {
         .set('token', userToken)
         .send({
           title: 'crusade',
-          type: 'church prayer',
+          description: 'church prayer',
           date: '08/04/2016',
           time: '04:00',
           centerId: '2'
@@ -428,7 +427,7 @@ describe('Event API Test', () => {
           expect(response.statusCode).to.equal(200);
           expect(response.body).to.be.an('object');
           expect(response.body.data.occasion).to.have.property('title');
-          expect(response.body.data.occasion).to.have.property('type');
+          expect(response.body.data.occasion).to.have.property('description');
           expect(response.body.data.occasion).to.have.property('date');
           expect(response.body.data.occasion).to.have.property('time');
           done();

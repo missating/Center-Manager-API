@@ -24,7 +24,7 @@ module.exports = {
       },
 
       facilities: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
       },
 

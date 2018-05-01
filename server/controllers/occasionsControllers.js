@@ -27,7 +27,7 @@ export default class occasionsControllers {
    */
   static addOccasion(req, res) {
     const {
-      title, type, date, time, centerId
+      title, description, date, time, centerId
     } = req.body;
 
     return db.Center.findById(req.body.centerId)
@@ -60,7 +60,7 @@ export default class occasionsControllers {
                 userId: req.userId,
                 centerId,
                 title,
-                type,
+                description,
                 date,
                 time
               })
@@ -95,7 +95,7 @@ export default class occasionsControllers {
    */
   static editOccasion(req, res) {
     const {
-      title, type, date, time, centerId
+      title, description, date, time, centerId
     } = req.body;
 
     db.Occasion.findOne({
@@ -120,7 +120,8 @@ export default class occasionsControllers {
             }
             const occasionDetails = {
               title: title ? title.trim() : foundOccasion.title,
-              type: type ? type.trim() : foundOccasion.type,
+              description:
+                description ? description.trim() : foundOccasion.description,
               date: date ? date.trim() : foundOccasion.date,
               time: time ? time.trim() : foundOccasion.trim,
               centerId: centerId ?
@@ -137,7 +138,8 @@ export default class occasionsControllers {
         } else {
           const occasionDetails = {
             title: title ? title.trim() : foundOccasion.title,
-            type: type ? type.trim() : foundOccasion.type,
+            description:
+              description ? description.trim() : foundOccasion.description,
             date: date ? date.trim() : foundOccasion.date,
             time: time ? time.trim() : foundOccasion.trim,
             centerId: centerId ?

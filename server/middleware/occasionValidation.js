@@ -4,7 +4,7 @@ import validator from 'validator';
 
 export const verifyNewOccasion = (req, res, next) => {
   const {
-    title, type, date, time, centerId
+    title, description, date, time, centerId
   } = req.body;
 
   const errors = {};
@@ -13,10 +13,10 @@ export const verifyNewOccasion = (req, res, next) => {
     errors.title = 'Please provide a title for this event';
   } else if (title && validator.isEmpty(title.trim())) {
     errors.title = 'The title of this event cannot be empty';
-  } else if (!type) {
-    errors.type = 'What type of event is this?';
-  } else if (type && validator.isEmpty(type.trim())) {
-    errors.type = 'Please what type of event is this?';
+  } else if (!description) {
+    errors.description = 'Please provide a description for this event';
+  } else if (description && validator.isEmpty(description.trim())) {
+    errors.description = 'Description cannot be empty';
   } else if (!date) {
     errors.date = 'Please provide a date for the event';
   } else if (date && validator.isEmpty(date.trim())) {
@@ -44,7 +44,7 @@ export const verifyNewOccasion = (req, res, next) => {
 
 export const verifyEditOccassion = (req, res, next) => {
   const {
-    title, type, date, time, centerId
+    title, description, date, time, centerId
   } = req.body;
 
   const errors = {};
@@ -52,8 +52,8 @@ export const verifyEditOccassion = (req, res, next) => {
   if (title && validator.isEmpty(title.trim())) {
     errors.title = 'Please provide a valid title';
   }
-  if (type && validator.isEmpty(type.trim())) {
-    errors.type = 'Please provide a valid type';
+  if (description && validator.isEmpty(description.trim())) {
+    errors.description = 'Please provide a valid description';
   }
 
   if (date && validator.isEmpty(date.trim())) {

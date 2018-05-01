@@ -5,8 +5,8 @@ export default (sequelize, DataTypes) => {
       allowNull: false
     },
 
-    type: {
-      type: DataTypes.STRING,
+    description: {
+      type: DataTypes.TEXT,
       allowNull: false
     },
 
