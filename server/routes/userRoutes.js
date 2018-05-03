@@ -1,5 +1,6 @@
 import user from '../controllers/usersController';
 import occasion from '../controllers/occasionsControllers';
+import attendee from '../controllers/attendeesControllers';
 import authorization from '../middleware/authorization';
 import {
   verifyUserSignUp,
@@ -15,6 +16,10 @@ import {
   verifyEditOccassion,
   verifyNewOccasion
 } from '../middleware/occasionValidation';
+import {
+  verifyBookOccasion,
+  editBookOccasion
+} from '../middleware/attendeeValidation';
 
 
 /**
@@ -67,5 +72,20 @@ export default function userRoutes(app) {
     )
     .delete(authorization, verifyEventId, occasion.deleteOccasion)
     .get(verifyEventId, occasion.getOneOccasion);
+
+
+  app.route('/api/v1/events/:eventId/register')
+    .post(
+      authorization,
+      verifyEventId,
+      verifyBookOccasion,
+      attendee.bookOccasion
+    )
+    .put(
+      authorization,
+      verifyEventId,
+      editBookOccasion,
+      attendee.editBookOccasion
+    );
 }
 
