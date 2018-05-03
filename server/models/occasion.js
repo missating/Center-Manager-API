@@ -29,6 +29,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     }
+
   });
 
   Occasion.associate = (models) => {
@@ -39,6 +40,10 @@ export default (sequelize, DataTypes) => {
     Occasion.belongsTo(models.Center, {
       foreignKey: 'centerId', onDelete: 'CASCADE'
     });
+    Occasion.belongsToMany(
+      models.User,
+      { through: models.Attendee, as: 'attendees', foreignKey: 'occasionId' }
+    );
   };
   return Occasion;
 };

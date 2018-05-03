@@ -264,13 +264,12 @@ export default class occasionsControllers {
               });
           }
         })
-        .catch(() => res.status(500)
-          .json({
-            errors: {
-              status: '500',
-              detail: 'Internal server error'
-            }
-          }));
+        .catch(() => res.status(500).json({
+          errors: {
+            status: '500',
+            detail: 'Internal server error'
+          }
+        }));
     });
   }
 
@@ -294,6 +293,14 @@ export default class occasionsControllers {
       include: [
         {
           model: db.Center
+        },
+        {
+          model: db.User,
+          as: 'attendees',
+          through: {
+            attributes: ['numberOfSeats', 'going']
+          },
+          attributes: ['fullname', 'email']
         }
       ]
     })

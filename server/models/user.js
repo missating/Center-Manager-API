@@ -62,10 +62,17 @@ export default (sequelize, DataTypes) => {
       models.Occasion,
       { foreignKey: 'userId', onDelete: 'CASCADE' }
     );
-    User.hasMany(models.Center, { foreignKey: 'userId' });
+    User.hasMany(models.Center, { foreignKey: 'userId', onDelete: 'CASCADE' });
     User.belongsTo(models.Role, {
-      foreignKey: 'roleId'
+      foreignKey: 'roleId', onDelete: 'CASCADE'
     });
+    User.hasMany(models.Attendee, {
+      foreignKey: 'userId', onDelete: 'CASCADE'
+    });
+    User.belongsToMany(
+      models.Occasion,
+      { through: models.Attendee, as: 'attendees', foreignKey: 'userId' }
+    );
   };
   return User;
 };
