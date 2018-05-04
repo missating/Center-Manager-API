@@ -45,6 +45,10 @@ export const editBookOccasion = (req, res, next) => {
     errors.centerId = 'Number of seats must be an integer';
   }
 
+  if (!((going === 'Yes') || (going === 'No') || (going === 'Maybe'))) {
+    errors.going = 'You can only RSVP with a Yes, No or Maybe';
+  }
+
   if (isEmpty(errors)) return next();
   return res.status(400).json({ errors });
 };
