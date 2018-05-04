@@ -23,8 +23,10 @@ app.use(bodyParser.urlencoded({
 routes(app);
 
 // Setup a default catch-all route that sends back a welcome message
-app.get('*', (req, res) => res.status(200)
+app.get('/', (req, res) => res.status(200)
   .send('Welcome to Event management API'));
+
+app.use('*', (req, res) => res.send('No way'));
 
 app.listen(port, () => {
   // eslint-disable-next-line
