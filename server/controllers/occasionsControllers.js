@@ -1,5 +1,6 @@
 import db from '../models/index';
 import verifyPageNumber from '../helperFunctions/idValidation';
+import pagination from '../helperFunctions/pagination';
 
 const errors = {
   status: '404',
@@ -256,6 +257,7 @@ export default class occasionsControllers {
       })
         .then((occasion) => {
           if (occasion) {
+            const paginationMeta = pagination(req, offset, numberOfItems);
             return res.status(200)
               .json({
                 data: {
@@ -263,6 +265,8 @@ export default class occasionsControllers {
                   limit,
                   pages,
                   currentPage: page,
+                  next: paginationMeta.next,
+                  previous: paginationMeta.previous,
                   occasion
                 }
               });
