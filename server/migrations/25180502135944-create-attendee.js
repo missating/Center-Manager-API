@@ -9,8 +9,7 @@ module.exports = {
 
     numberOfSeats: {
       type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 1
+      allowNull: false
     },
 
     going: {

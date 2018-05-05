@@ -112,7 +112,7 @@ export default class attendeesControllers {
             }));
       }
       if (!foundAttendee) {
-        return res.status(200)
+        return res.status(404)
           .json({
             errors: {
               status: '404',

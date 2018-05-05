@@ -35,7 +35,11 @@ export default class occasionsControllers {
         if (!foundCenter) {
           return res.status(404)
             .json({
-              errors
+              errors: {
+                status: '404',
+                title: 'Not Found',
+                detail: 'Can\'t find a center with that Id'
+              }
             });
         }
         return db.Occasion.findOne({

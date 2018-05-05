@@ -26,7 +26,8 @@ routes(app);
 app.get('/', (req, res) => res.status(200)
   .send('Welcome to Event management API'));
 
-app.use('*', (req, res) => res.send('No way'));
+app.use('*', (req, res) =>
+  res.send('The API route you requested does not exist'));
 
 app.listen(port, () => {
   // eslint-disable-next-line
