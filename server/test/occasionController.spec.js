@@ -252,6 +252,7 @@ describe('Event API Test', () => {
         });
     });
 
+
     it(
       'Should not add an event with a date that is already booked for a center',
       (done) => {
@@ -291,7 +292,7 @@ describe('Event API Test', () => {
           expect(response.body).to.be.an('object');
           expect(response.body.errors.title).to.equal('Not Found');
           expect(response.body.errors.detail)
-            .to.equal('Can\'t find an event with that Id');
+            .to.equal('Can\'t find a center with that Id');
           done();
         });
     });
@@ -354,7 +355,6 @@ describe('Event API Test', () => {
           centerId: '2'
         })
         .end((error, response) => {
-          // console.log('=======================', response.body);
           expect(response.statusCode).to.equal(200);
           expect(response.body).to.be.an('object');
           expect(response.body.data.occasion).to.have.property('title');
@@ -369,7 +369,7 @@ describe('Event API Test', () => {
 
 
     it('Should not edit an event that does not exist', (done) => {
-      request.put('/api/v1/events/2')
+      request.put('/api/v1/events/20')
         .set('token', userToken)
         .send({
           title: 'crusade',
@@ -532,6 +532,266 @@ describe('Event API Test', () => {
           done();
         });
     });
+  });
+
+  describe('# Book an event', () => {
+    it('Should not allow a non auth user book to attend an event', (done) => {
+      request.post('/api/v1/events/1/register')
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(401);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.title).to.equal('Unauthorized');
+          expect(response.body.errors.detail)
+            .to
+            .equal('You do not have the permission to perfrom this action');
+          done();
+        });
+    });
+
+
+    it(
+      'Should not book an event wihtout the specified number of seats',
+      (done) => {
+        request.post('/api/v1/events/1/register')
+          .set('token', userToken)
+          .send({
+            numberOfSeats: '',
+            going: 'Yes'
+          })
+          .end((error, response) => {
+            expect(response.statusCode).to.equal(400);
+            expect(response.body).to.be.an('object');
+            expect(response.body.errors.numberOfSeats)
+              .to.equal('Please sepcify the number of seats');
+            done();
+          });
+      }
+    );
+
+
+    it(
+      'Should not book an event wihtout an RSVP',
+      (done) => {
+        request.post('/api/v1/events/1/register')
+          .set('token', userToken)
+          .send({
+            numberOfSeats: '1',
+            going: ''
+          })
+          .end((error, response) => {
+            expect(response.statusCode).to.equal(400);
+            expect(response.body).to.be.an('object');
+            expect(response.body.errors.going)
+              .to.equal('Please RSVP for the event, if you want to attend');
+            done();
+          });
+      }
+    );
+
+
+    it(
+      'Should not book an event if the numberOfSeats is not an integer',
+      (done) => {
+        request.post('/api/v1/events/1/register')
+          .set('token', userToken)
+          .send({
+            numberOfSeats: 'one',
+            going: 'Yes'
+          })
+          .end((error, response) => {
+            expect(response.statusCode).to.equal(400);
+            expect(response.body).to.be.an('object');
+            expect(response.body.errors.numberOfSeats)
+              .to.equal('Number of seats must be an Integer');
+            done();
+          });
+      }
+    );
+
+
+    it(
+      'Should not book an event if the RSVP is an integer',
+      (done) => {
+        request.post('/api/v1/events/1/register')
+          .set('token', userToken)
+          .send({
+            numberOfSeats: '1',
+            going: '2'
+          })
+          .end((error, response) => {
+            expect(response.statusCode).to.equal(400);
+            expect(response.body).to.be.an('object');
+            expect(response.body.errors.going)
+              .to.equal('You can only RSVP with a Yes, No or Maybe');
+            done();
+          });
+      }
+    );
+
+
+    it(
+      'Should not book an event if the RSVP is not correct',
+      (done) => {
+        request.post('/api/v1/events/1/register')
+          .set('token', userToken)
+          .send({
+            numberOfSeats: '1',
+            going: 'yes'
+          })
+          .end((error, response) => {
+            expect(response.statusCode).to.equal(400);
+            expect(response.body).to.be.an('object');
+            expect(response.body.errors.going)
+              .to.equal('You can only RSVP with a Yes, No or Maybe');
+            done();
+          });
+      }
+    );
+
+
+    it(
+      'Should not allow an auth user to book an event that does not exist',
+      (done) => {
+        request.post('/api/v1/events/1/register')
+          .set('token', userToken)
+          .send({
+            numberOfSeats: '1',
+            going: 'Yes'
+          })
+          .end((error, response) => {
+            expect(response.statusCode).to.equal(404);
+            expect(response.body).to.be.an('object');
+            expect(response.body.errors.title)
+              .to.equal('Not Found');
+            expect(response.body.errors.detail)
+              .to.equal('Can\'t find an event with that Id');
+            done();
+          });
+      }
+    );
+
+    it('Should allow an auth user add an event', (done) => {
+      request.post('/api/v1/events')
+        .set('token', userToken)
+        .send({
+          title: 'owanbe',
+          description: 'yoruba party',
+          time: '02:00',
+          date: '05/10/2017',
+          centerId: '2'
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(201);
+          expect(response.body).to.be.an('object');
+          expect(response.body.data.occasion).to.have.property('title');
+          expect(response.body.data.occasion).to.have.property('description');
+          expect(response.body.data.occasion).to.have.property('time');
+          expect(response.body.data.occasion).to.have.property('date');
+          done();
+        });
+    });
+
+    it(
+      'Should allow an auth user to book an event',
+      (done) => {
+        request.post('/api/v1/events/2/register')
+          .set('token', userToken)
+          .send({
+            numberOfSeats: '1',
+            going: 'Yes'
+          })
+          .end((error, response) => {
+            expect(response.statusCode).to.equal(201);
+            expect(response.body).to.be.an('object');
+            expect(response.body.data.newAttendee)
+              .to.have.property('numberOfSeats');
+            expect(response.body.data.newAttendee)
+              .to.have.property('going');
+            done();
+          });
+      }
+    );
+
+
+    it(
+      'Should allow an auth user to book for an event twice',
+      (done) => {
+        request.post('/api/v1/events/2/register')
+          .set('token', userToken)
+          .send({
+            numberOfSeats: '1',
+            going: 'Yes'
+          })
+          .end((error, response) => {
+            expect(response.statusCode).to.equal(409);
+            expect(response.body).to.be.an('object');
+            expect(response.body.errors.title)
+              .to.equal('Conflict');
+            expect(response.body.errors.detail)
+              .to.equal('You already registered for this event');
+            done();
+          });
+      }
+    );
+  });
+
+
+  describe('# Edit an RSVP for a booked event', () => {
+    it('Should not allow a non auth user edit to attend an event', (done) => {
+      request.put('/api/v1/events/1/register')
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(401);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.title).to.equal('Unauthorized');
+          expect(response.body.errors.detail)
+            .to
+            .equal('You do not have the permission to perfrom this action');
+          done();
+        });
+    });
+
+    it(
+      'Should not allow a user edit an attendee detail that does not exist',
+      (done) => {
+        request.put('/api/v1/events/3/register')
+          .set('token', userToken)
+          .send({
+            numberOfSeats: '1',
+            going: 'No'
+          })
+          .end((error, response) => {
+            expect(response.statusCode).to.equal(404);
+            expect(response.body).to.be.an('object');
+            expect(response.body.errors.title)
+              .to.equal('Not Found');
+            expect(response.body.errors.detail)
+              .to.equal('You don\'t have an attendee detail with that Id');
+            done();
+          });
+      }
+    );
+
+
+    it(
+      'Should allow an auth user edit attendee detail',
+      (done) => {
+        request.put('/api/v1/events/2/register')
+          .set('token', userToken)
+          .send({
+            numberOfSeats: '3',
+            going: 'No'
+          })
+          .end((error, response) => {
+            expect(response.statusCode).to.equal(200);
+            expect(response.body).to.be.an('object');
+            expect(response.body.data.attending)
+              .to.have.property('numberOfSeats');
+            expect(response.body.data.attending)
+              .to.have.property('going');
+            done();
+          });
+      }
+    );
   });
 });
 

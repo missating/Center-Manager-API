@@ -1,5 +1,6 @@
 import db from '../models/index';
 import verifyPageNumber from '../helperFunctions/idValidation';
+import pagination from '../helperFunctions/pagination';
 
 const errors = {
   status: '404',
@@ -35,7 +36,11 @@ export default class occasionsControllers {
         if (!foundCenter) {
           return res.status(404)
             .json({
-              errors
+              errors: {
+                status: '404',
+                title: 'Not Found',
+                detail: 'Can\'t find a center with that Id'
+              }
             });
         }
         return db.Occasion.findOne({
@@ -252,6 +257,7 @@ export default class occasionsControllers {
       })
         .then((occasion) => {
           if (occasion) {
+            const paginationMeta = pagination(req, offset, numberOfItems);
             return res.status(200)
               .json({
                 data: {
@@ -259,6 +265,8 @@ export default class occasionsControllers {
                   limit,
                   pages,
                   currentPage: page,
+                  next: paginationMeta.next,
+                  previous: paginationMeta.previous,
                   occasion
                 }
               });

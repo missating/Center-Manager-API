@@ -2,8 +2,7 @@ export default (sequelize, DataTypes) => {
   const Attendee = sequelize.define('Attendee', {
     numberOfSeats: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1
+      allowNull: false
     },
 
     going: {
