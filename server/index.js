@@ -2,7 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import routes from './server/routes';
+import routes from './routes';
 
 dotenv.config();
 
@@ -24,10 +24,14 @@ routes(app);
 
 // Setup a default catch-all route that sends back a welcome message
 app.get('/', (req, res) => res.status(200)
-  .send('Welcome to Event management API'));
+  .send({
+    message: 'Welcome to Event management API'
+  }));
 
 app.use('*', (req, res) =>
-  res.send('The API route you requested does not exist'));
+  res.send({
+    message: 'The API route you requested does not exist'
+  }));
 
 app.listen(port, () => {
   // eslint-disable-next-line
