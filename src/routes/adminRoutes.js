@@ -4,7 +4,6 @@ import centerValidation from '../middleware/centerValidation';
 import verifyAdmin from '../middleware/verifyAdmin';
 import { verifyCenterId } from '../middleware/idValidation';
 
-
 /**
  *@function adminRoutes
  *
@@ -24,4 +23,3 @@ export default function adminRoutes(app) {
     .delete(authorization, verifyAdmin, verifyCenterId, Center.deleteCenter)
     .get(verifyCenterId, Center.getACenter);
 }
-

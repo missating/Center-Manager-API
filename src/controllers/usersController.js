@@ -4,7 +4,6 @@ import generateToken from '../utils';
 import db from '../models/index';
 import sendEmail from '../helperFunctions/sendEmail';
 
-
 /**
  *@class usersController
  *
@@ -73,7 +72,6 @@ export default class usersController {
         }
       }));
   }
-
 
   /**
    * @description - Logs a user in
@@ -230,7 +228,6 @@ export default class usersController {
       }));
   }
 
-
   /**
    * @description - edit's a user's profile
    * @static
@@ -299,7 +296,6 @@ export default class usersController {
       }));
   }
 
-
   /**
    * @description - Request by user to recover lost password
    * @static
@@ -349,7 +345,6 @@ export default class usersController {
         }));
   }
 
-
   /**
    * @description - Link for user to reset their password
    * @static
@@ -395,4 +390,3 @@ export default class usersController {
       }));
   }
 }
-

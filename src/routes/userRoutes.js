@@ -21,7 +21,6 @@ import {
   editBookOccasion
 } from '../middleware/attendeeValidation';
 
-
 /**
  *@function userRoutes
  *
@@ -88,4 +87,3 @@ export default function userRoutes(app) {
       attendee.editBookOccasion
     );
 }
-

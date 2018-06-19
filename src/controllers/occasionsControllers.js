@@ -86,7 +86,6 @@ export default class occasionsControllers {
       }));
   }
 
-
   /**
    * @description - Edits the details an event
    * @static
@@ -174,7 +173,6 @@ export default class occasionsControllers {
       }));
   }
 
-
   /**
    * @description - Deletes an event
    * @static
@@ -223,7 +221,6 @@ export default class occasionsControllers {
         }
       }));
   }
-
 
   /**
    * @description - Gets all events
@@ -280,7 +277,6 @@ export default class occasionsControllers {
         }));
     });
   }
-
 
   /**
    * @description - Gets one event
@@ -340,7 +336,6 @@ export default class occasionsControllers {
           }
         }));
   }
-
 
   /**
    * @description - Gets all events created by a user

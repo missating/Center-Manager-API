@@ -70,7 +70,6 @@ export default class centersController {
       }));
   }
 
-
   /**
    * @description - Edits the details of a center
    * @static
@@ -175,7 +174,6 @@ export default class centersController {
           }
         }));
   }
-
 
   /**
    * @description - Gets all centers
@@ -283,4 +281,3 @@ export default class centersController {
         }));
   }
 }
-

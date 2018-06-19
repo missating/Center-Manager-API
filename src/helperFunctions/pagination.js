@@ -1,4 +1,3 @@
-
 const pagination = (req, offset, numberOfItems) => {
   const limit = 6;
 

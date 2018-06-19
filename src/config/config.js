@@ -14,7 +14,11 @@ const config = {
     database: process.env.DB_DATABASE_TEST,
     host: process.env.DB_HOST,
     dialect: 'postgres'
-  }
+  },
+  production: {
+    use_env_variable: 'DATABASE_URL',
+    dialect: 'postgres'
+  },
 };
 
 module.exports = config;

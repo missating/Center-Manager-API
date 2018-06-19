@@ -1,6 +1,5 @@
 import db from '../models/index';
 
-
 /**
  * @class attendeesControllers
  *

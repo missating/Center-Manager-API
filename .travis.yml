@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "6"
+  - "8.0.0"
 services:
   - postgresql
 before_script:
@@ -11,4 +11,3 @@ script:
   - npm run test:server
 after_success: 
   - npm run coverage
-  
