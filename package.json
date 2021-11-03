@@ -56,6 +56,6 @@
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^5.15.1",
-    "validator": "^9.4.1"
+    "validator": "^13.7.0"
   }
 }
